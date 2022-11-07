@@ -1,1 +1,50 @@
-<p>register works!</p>
+<div class="container">
+  <a class="list-group-item-info" routerLink="/"><h2>На главную</h2></a>
+  <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+    <div class="mb-3">
+
+      <label for="username" class="form-label">Имя</label>
+      <input formControlName="username" type="text" id="username" class="form-control"  name="userName" maxlength="20" required="true" placeholder="Введите имя">
+      <p *ngIf="this.registerForm.get('username')?.invalid && this.registerForm.get('username')?.touched">Введите имя</p>
+
+      <label for="userFamilyName" class="form-label">Фамилия</label>
+      <input formControlName="userFamilyName" type="text" id="userFamilyName" class="form-control"  name="userFamilyName" maxlength="20" required="true" placeholder="Введите фамилию">
+      <p *ngIf="this.registerForm.get('userFamilyName')?.invalid && this.registerForm.get('userFamilyName')?.touched">Введите фамилию</p>
+
+      <label for="userSureName" class="form-label">Отчество</label>
+      <input formControlName="userSureName" type="text" id="userSureName" class="form-control"  name="userSureName" maxlength="20" placeholder="Введите отчество">
+      <p *ngIf="this.registerForm.get('userSureName')?.invalid && this.registerForm.get('userSureName')?.touched">Введите отчество</p>
+
+      <label for="email" class="form-label">Адрес электронной почты</label>
+      <input formControlName="email" type="email" id="email" class="form-control"  name="email" maxlength="300" aria-describedby="emailHelp" required="true" placeholder="email@email.ru">
+      <p *ngIf="this.registerForm.get('email')?.invalid && this.registerForm.get('email')?.touched">Введите правильный email</p>
+      <div id="emailHelp" class="form-text">Мы никогда никому не передадим вашу электронную почту.</div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Пароль</label>
+      <input formControlName="password" type="password" id="password" class="form-control" name="password" minlength="10" maxlength="300" required="true">
+      <p *ngIf="this.registerForm.get('password')?.invalid && this.registerForm.get('password')?.touched">Введите пароль</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Повторите пароль</label>
+      <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" minlength="10" maxlength="300" required="true">
+<!--      <p *ngIf="this.registerForm.get('password')?.invalid && this.registerForm.get('password')?.touched">Павторите пароль</p>-->
+    </div>
+    <div class="mb-3">
+      <label for="birthday" class="form-label">Дата рождения</label>
+      <input formControlName="birthday" type="date" id="birthday" class="form-control" name="birthday">
+    </div>
+
+    <div class="mb-3">
+      <label for="gender" class="form-label" >Пол</label>
+      <select formControlName="gender" class="form-select" id="gender" name="gender">
+        <option selected>Выберите пол</option>
+        <option value="female">Женский</option>
+        <option value="male">Мужской</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </form>
+</div>
