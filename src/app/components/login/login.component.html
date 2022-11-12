@@ -1,16 +1,67 @@
 <div class="container">
-  <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
-    <div class="mb-3">
+  <form (ngSubmit)="submitLogin()" #form="ngForm">
+    <div class="mb-3, form-floating">
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        name="email"
+        aria-describedby="emailHelp"
+        placeholder="email@email.ru"
+        [(ngModel)]="UserDto.email"
+        required
+        email
+        #email="ngModel"
+      >
       <label for="email" class="form-label">Адрес электронной почты</label>
-      <input type="email" formControlName="email" id="email" class="form-control"  name="email" aria-describedby="emailHelp" required="true" placeholder="email@email.ru">
-      <p *ngIf="this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched">Введите правильный email</p>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Пароль</label>
-      <input type="password" formControlName="password" id="password" class="form-control" name="password" minlength="6" maxlength="30" required="true">
-      <p *ngIf="this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched">Введите пароль</p>
+
+      <div *ngIf="(email.invalid && email.touched) || email.dirty">
+        <div class="alert alert-warning" *ngIf="email.errors?.['required']">
+          Email обязательно
+        </div>
+        <div class="alert alert-warning" *ngIf="email.errors?.['email']">
+          Email некоректно введен
+        </div>
+      </div>
 
     </div>
-    <button type="submit" class="btn btn-primary">Авторизироваться</button>
-  </form>
+    <div class="mb-3, form-floating">
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        name="password"
+        minlength="10"
+        maxlength="300"
+        [(ngModel)]="UserDto.password"
+        required
+        #password="ngModel"
+      >
+      <label for="password" class="form-label">Пароль</label>
+
+      <div *ngIf="(password.invalid && password.touched) || password.dirty">
+        <div class="alert alert-warning" *ngIf="password.errors?.['required']">
+           Пароль обязательно
+        </div>
+        <div class="alert alert-warning" *ngIf="password.errors?.['minlength']">
+          Минимум 10 символов
+        </div>
+      </div>
+
+
+    </div>
+    <button
+      class="w-100 btn btn-lg btn-primary"
+      type="submit"
+      [disabled]="!form.form.valid"
+
+      *ngIf="!isLoggedIn; else loggedIn"
+    >
+      Авторизация
+    </button>
+    <ng-template #loggedIn>
+            <p><i>Пользователь: </i>{{username}}</p>
+            <button type="button" class="btn btn-danger" (click)="logout()">Выйти</button>
+    </ng-template>
+   </form>
 </div>

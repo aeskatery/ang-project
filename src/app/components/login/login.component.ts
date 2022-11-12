@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthService} from "../../services/auth.service";
+import {IUserDto} from "../models/IUserDto";
 
 @Component({
   selector: 'app-login',
@@ -9,23 +7,43 @@ import {AuthService} from "../../services/auth.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup
-
+  UserDto: IUserDto = {
+    email: '',
+    password: ''
+  };
+  isLoggedIn = false;
+  username = '';
   constructor(
-    private router: Router,
-    private authService: AuthService
+
   ) { }
 
   submitLogin() {
-    console.log(this.loginForm.value);
+    const savedDataAboutUser = {
+      email: this.UserDto.email,
+    };
+    const userStr = JSON.stringify(savedDataAboutUser);
+    console.log(userStr)
+    localStorage.setItem('user', userStr);
+
+    this.username = this.UserDto.email
+
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      console.log(user);
+
+      if (user) {
+        this.isLoggedIn = true;
+      }
+    } else {
+      this.isLoggedIn = false;
+    }
   }
-
-
+  logout() {
+    localStorage.clear();
+    this.isLoggedIn = false;
+  }
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      'email': new FormControl('', [Validators.required, Validators.email]),
-      'password': new FormControl('', [Validators.required])
-    })
+
   }
 
 }
